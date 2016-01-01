@@ -19,10 +19,10 @@ The sidedoor user has full root access configured in /etc/sudoers.d.
     `sudo service ssh reload`.
  3. Configure REMOTE_SERVER and TUNNEL_PORT in /etc/default/sidedoor.
  4. Install an SSH private key to access the remote server in
-    /var/lib/sidedoor/.ssh/id_rsa. The corresponding public key will
+    /etc/sidedoor/id_rsa. The corresponding public key will
     need to be included in the remote user's ~/.ssh/authorized_keys file.
  5. Install SSH public key(s) to control access to the local sidedoor user
-    in /var/lib/sidedoor/.ssh/authorized_keys.
+    in /etc/sidedoor/authorized_keys.
  6. Restart sidedoor service, e.g., `sudo service sidedoor restart`.
  7. Optionally, modify ssh_config_example and include it in a client's
     ~/.ssh/config file to easily access the tunnelled backdoor.
