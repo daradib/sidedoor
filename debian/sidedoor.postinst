@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -e
+
+if [ "$1" = configure ]; then
+  adduser --quiet --system --no-create-home --group \
+    --home /var/lib/sidedoor \
+    --shell /bin/sh \
+    sidedoor
+  passwd --quiet --lock sidedoor
+
+  if [ ! -d /var/lib/sidedoor/.ssh ]; then
+    mkdir /var/lib/sidedoor/.ssh
+    chown sidedoor:sidedoor /var/lib/sidedoor/.ssh
+    chmod go= /var/lib/sidedoor/.ssh
+  fi
+fi
+
+#DEBHELPER#

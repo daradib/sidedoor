@@ -1,0 +1,13 @@
+description "maintain SSH reverse tunnel"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+
+respawn
+
+setuid sidedoor
+
+pre-start script
+    [ -f /etc/default/sidedoor ] && . /etc/default/sidedoor
+end script
+
+exec /usr/bin/sidedoor "$REMOTE_SERVER" "$TUNNEL_PORT" "$LOCAL_PORT"
