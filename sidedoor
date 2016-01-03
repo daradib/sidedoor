@@ -13,6 +13,6 @@ REMOTE_SERVER="$1"
 TUNNEL_PORT="$2"
 LOCAL_PORT="${3:-$(awk '/^Port/ {print $2}' /etc/ssh/sshd_config)}"
 
-exec autossh -NT \
+exec autossh -M 0 -NT \
   -R "${TUNNEL_PORT}:localhost:${LOCAL_PORT}" \
   "$REMOTE_SERVER"
