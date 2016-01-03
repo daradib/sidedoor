@@ -1,6 +1,6 @@
 # sidedoor
 
-sidedoor maintains a reverse SSH tunnel to provide a backdoor.
+sidedoor maintains a reverse tunnel to provide a backdoor.
 sidedoor can be used to remotely control a device behind a NAT.
 
 sidedoor is packaged for Debian-based systems with systemd or upstart.

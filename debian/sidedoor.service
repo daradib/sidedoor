@@ -1,5 +1,5 @@
 [Unit]
-Description=maintain SSH reverse tunnel
+Description=maintain reverse tunnel
 After=local-fs.target network.target
 
 [Service]

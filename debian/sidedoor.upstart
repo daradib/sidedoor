@@ -1,4 +1,4 @@
-description "maintain SSH reverse tunnel"
+description "maintain reverse tunnel"
 
 start on (local-filesystems and net-device-up IFACE!=lo)
 

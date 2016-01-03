@@ -5,7 +5,7 @@ set -euo pipefail
 if [ $# -ne 2 -a $# -ne 3 ]; then
   echo "Usage: $(basename $0) REMOTE_SERVER TUNNEL_PORT [LOCAL_PORT]"
   echo
-  echo "Create a reverse SSH tunnel to localhost SSH."
+  echo "Maintain a reverse SSH tunnel."
   exit 65
 fi
 
