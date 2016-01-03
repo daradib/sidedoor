@@ -1,31 +1,67 @@
 # sidedoor
 
-Backdoor using a reverse SSH tunnel on Debian/Ubuntu systems
-
 sidedoor maintains a reverse SSH tunnel to provide a backdoor.
 sidedoor can be used to remotely control a device behind a NAT.
 
+sidedoor is packaged for Debian-based systems with systemd or upstart.
+It has been used on Debian 8 (jessie) and Ubuntu 14.04 LTS (trusty).
+
 The sidedoor user has full root access configured in /etc/sudoers.d.
 
-## Howto
+## Installation
 
- 1. Install sidedoor. For now, `sudo dpkg -i sidedoor*.deb`.
-    You can build a package by running `dpkg-buildpackage -us -uc -b`.
- 2. Optionally, lock down the local SSH server by disabling password
-    authentication (`ChallengeResponseAuthentication no` and
-    `PasswordAuthentication no`) and listening only on localhost
-    (`ListenAddress ::1` and `ListenAddress 127.0.0.1`) in
-    /etc/ssh/sshd_config. Then restart or reload sshd, e.g.,
-    `sudo service ssh reload`.
- 3. Configure REMOTE_SERVER and TUNNEL_PORT in /etc/default/sidedoor.
- 4. Install an SSH private key to access the remote server in
-    /etc/sidedoor/id_rsa. The corresponding public key will
-    need to be included in the remote user's ~/.ssh/authorized_keys file.
- 5. Install SSH public key(s) to control access to the local sidedoor user
-    in /etc/sidedoor/authorized_keys.
- 6. Restart sidedoor service, e.g., `sudo service sidedoor restart`.
- 7. Optionally, modify ssh_config_example and include it in a client's
-    ~/.ssh/config file to easily access the tunnelled backdoor.
+If sidedoor is in your package repositories, simply install it, e.g.,
+`sudo apt-get install sidedoor`.
+
+Otherwise, you will need to build a Debian package and install it.
+First, install build dependencies.
+
+    sudo apt-get install debhelper dh-systemd
+
+Then, from the directory containing this README file, build and install
+a package.
+
+    rm -f ../sidedoor*.deb # remove old package builds
+    dpkg-buildpackage -us -uc -b
+    sudo dpkg -i ../sidedoor*.deb
+
+## Configuration
+
+The remote server and tunnel port are configured in `/etc/default/sidedoor`.
+SSH configuration files are located in the `/etc/sidedoor` directory.
+`~sidedoor/.ssh` is a symlink to `/etc/sidedoor`.
+
+ * Configure `REMOTE_SERVER` and `TUNNEL_PORT` in `/etc/default/sidedoor`.
+ * Create SSH configuration files under `/etc/sidedoor`.
+   - `authorized_keys`:  SSH public key(s) to control access to the local
+     sidedoor user.
+   - `id_rsa`: SSH private key to access the remote server.
+     Can be generated with `sudo ssh-keygen -t rsa -f /etc/sidedoor/id_rsa`
+     (press enter when prompted for passphrase to leave empty).
+     Needs read permission by the sidedoor user or group, e.g.,
+     `sudo chown root:sidedoor /etc/sidedoor/id_rsa` and
+     `sudo chmod 640 /etc/sidedoor/id_rsa`.
+     The corresponding public key `id_rsa.pub` will need to be included in
+     the remote user's `~/.ssh/authorized_keys` file.
+   - `known_hosts`: SSH host key of the remote server.
+   - `config` (optional): Additional SSH config, see `man ssh_config`.
+
+Restart the sidedoor service to apply changes.
+
+    sudo service sidedoor restart
+
+## Recommendations
+
+ * Lock down the local SSH server by editing `/etc/ssh/sshd_config`.
+   - Disable password authentication
+     (`ChallengeResponseAuthentication no` and `PasswordAuthentication no`).
+   - Limit daemon to only listen on localhost.
+     (`ListenAddress ::1` and `ListenAddress 127.0.0.1`).
+   - To apply changes, restart or reload sshd, e.g.,
+     `sudo service ssh reload`.
+ * Modify the `ssh_config_example` file and include it in a client's
+   `~/.ssh/config` file to easily access the tunneled backdoor
+   with `ssh`, `scp`, `rsync`, etc.
 
 ## License
 
