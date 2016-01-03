@@ -15,5 +15,4 @@ LOCAL_PORT="${3:-$(awk '/^Port/ {print $2}' /etc/ssh/sshd_config)}"
 
 exec autossh -NT \
   -R "${TUNNEL_PORT}:localhost:${LOCAL_PORT}" \
-  -o StrictHostKeyChecking=no \
   "$REMOTE_SERVER"
