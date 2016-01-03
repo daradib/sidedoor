@@ -59,7 +59,7 @@ Restart the sidedoor service to apply changes.
      (`ListenAddress ::1` and `ListenAddress 127.0.0.1`).
    - To apply changes, restart or reload sshd, e.g.,
      `sudo service ssh reload`.
- * Modify the `ssh_config_example` file and include it in a client's
+ * Modify the `ssh_client_config_example` file and include it in a client's
    `~/.ssh/config` file to easily access the tunneled backdoor
    with `ssh`, `scp`, `rsync`, etc.
 
