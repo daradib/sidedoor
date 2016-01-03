@@ -6,8 +6,7 @@ respawn
 
 setuid sidedoor
 
-pre-start script
+script
     [ -f /etc/default/sidedoor ] && . /etc/default/sidedoor
+    exec /usr/bin/sidedoor "$REMOTE_SERVER" "$TUNNEL_PORT" "$LOCAL_PORT"
 end script
-
-exec /usr/bin/sidedoor "$REMOTE_SERVER" "$TUNNEL_PORT" "$LOCAL_PORT"
