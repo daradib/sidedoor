@@ -56,7 +56,7 @@ SSH configuration files are located in the `/etc/sidedoor` directory.
      the remote user's `~/.ssh/authorized_keys` file.
    - `known_hosts`: SSH host key of the remote server.
  * Optionally, grant remote access to the local sidedoor user by creating
-   `/etc/sidedoor/authorized_keys` containing SSH public key(s).
+   the file `/etc/sidedoor/authorized_keys` containing SSH public key(s).
    The sidedoor-sudo package provides full root access.
 
 Restart the sidedoor service to apply changes.
@@ -83,6 +83,7 @@ with minimal dependencies. Some more featured alternatives include:
 
  * [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN)
  * [PageKite](https://github.com/pagekite/PyPagekite/)
+ * [ssh_tunnel](http://sshtunnel.sourceforge.net/)
 
 ## License
 
