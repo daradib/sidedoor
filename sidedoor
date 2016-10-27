@@ -5,7 +5,7 @@ set -eu
 if [ $# -ne 2 -a $# -ne 3 ]; then
   echo "Usage: $(basename $0) REMOTE_SERVER TUNNEL_PORT [LOCAL_PORT]"
   echo
-  echo "Maintain a reverse SSH tunnel."
+  echo "Maintain an SSH connection or tunnel."
   exit 65
 fi
 

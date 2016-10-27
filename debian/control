@@ -12,12 +12,21 @@ Package: sidedoor
 Architecture: all
 Depends: ${misc:Depends}, adduser, systemd | upstart, autossh
 Recommends: openssh-server
-Description: Backdoor using a reverse tunnel
- sidedoor maintains a reverse tunnel to provide a backdoor.
- sidedoor can be used to remotely control a device behind a NAT.
+Suggests: sidedoor-sudo
+Description: SSH connection daemon
+ sidedoor maintains an SSH connection or tunnel.
  .
- To use, set up SSH keys to
- (1) access a remote server, and,
- (2) if tunneling SSH, control access to the local sidedoor user.
+ Example uses: remotely control a device by forwarding
+ the local SSH port and remotely access a web application by
+ forwarding the local web server port.
  .
- The sidedoor user has full root access configured in /etc/sudoers.d.
+ To use, set up SSH keys to access the remote server.
+
+Package: sidedoor-sudo
+Architecture: all
+Depends: ${misc:Depends}, sidedoor
+Description: SSH tunnel daemon - sudoers entry
+ sidedoor maintains an SSH connection or tunnel.
+ .
+ This package contains a sudoers entry to grant the sidedoor user
+ full root access.

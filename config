@@ -1,5 +1,6 @@
 Host *
-  # Tunneled traffic (e.g., SSH) is encrypted and thus not compressible.
+  # If tunneled traffic is encrypted (e.g., SSH),
+  # it probably does not compress well.
   Compression no
 
   # Disable password authentication.
