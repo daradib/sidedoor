@@ -1,6 +1,7 @@
 [Unit]
 Description=SSH connection daemon
-After=local-fs.target network.target
+After=local-fs.target network.target network-online.target
+Wants=network-online.target
 
 [Service]
 User=sidedoor
