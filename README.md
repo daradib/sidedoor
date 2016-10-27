@@ -76,6 +76,14 @@ Restart the sidedoor service to apply changes.
    `~/.ssh/config` file to easily access the tunneled SSH server
    with `ssh`, `scp`, `rsync`, etc.
 
+## Alternatives
+
+sidedoor is meant as a lightweight solution to tunneling localhost ports
+with minimal dependencies. Some more featured alternatives include:
+
+ * [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN)
+ * [PageKite](https://github.com/pagekite/PyPagekite/)
+
 ## License
 
 Copyright 2015-2016 Dara Adib.
