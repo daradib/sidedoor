@@ -2,17 +2,20 @@
 
 set -eu
 
-if [ $# -ne 2 -a $# -ne 3 ]; then
-  echo "Usage: $(basename $0) REMOTE_SERVER TUNNEL_PORT [LOCAL_PORT]"
+if [ $# -eq 0 ]; then
+  echo "Usage: $(basename $0) [SSH_ARGS...] [user@]hostname"
   echo
   echo "Maintain an SSH connection or tunnel."
   exit 65
 fi
 
-REMOTE_SERVER="$1"
-TUNNEL_PORT="$2"
-LOCAL_PORT="${3:-$(awk '/^Port/ {print $2}' /etc/ssh/sshd_config)}"
-
-exec autossh -M 0 -NT \
-  -R "${TUNNEL_PORT}:localhost:${LOCAL_PORT}" \
-  "$REMOTE_SERVER"
+while true; do
+  # CLOCK_MONOTONIC would be resilient to administrator changes,
+  # but timestamp is good enough.
+  timestamp="$(date +%s)"
+  ssh "$@" || true
+  if [ "$(date +%s)" -lt "$(( $timestamp + 30 ))" ]; then
+    echo "SSH exited too quickly. Retrying in 30 seconds." >&2
+    sleep 30
+  fi
+done

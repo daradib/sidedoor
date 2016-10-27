@@ -8,5 +8,5 @@ setuid sidedoor
 
 script
     [ -f /etc/default/sidedoor ] && . /etc/default/sidedoor
-    exec /usr/bin/sidedoor "$REMOTE_SERVER" "$TUNNEL_PORT" "$LOCAL_PORT"
+    exec /usr/bin/sidedoor $OPTIONS $REMOTE_SERVER
 end script

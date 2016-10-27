@@ -5,7 +5,7 @@ After=local-fs.target network.target
 [Service]
 User=sidedoor
 EnvironmentFile=-/etc/default/sidedoor
-ExecStart=/usr/bin/sidedoor "$REMOTE_SERVER" "$TUNNEL_PORT" "$LOCAL_PORT"
+ExecStart=/usr/bin/sidedoor $OPTIONS $REMOTE_SERVER
 Restart=on-failure
 
 [Install]
