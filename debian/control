@@ -16,9 +16,9 @@ Suggests: sidedoor-sudo
 Description: SSH connection daemon
  sidedoor maintains an SSH connection or tunnel.
  .
- Example uses: remotely control a device by forwarding
- the local SSH port and remotely access a web application by
- forwarding the local web server port.
+ Example uses: control a device by forwarding the SSH port,
+ access a web application by forwarding the web server port,
+ and stay connected to office network services.
  .
  To use, set up SSH keys to access the remote server.
 

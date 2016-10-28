@@ -4,14 +4,17 @@ sidedoor maintains an SSH connection or tunnel.
 
 Example use cases:
 
- * Remotely control a device behind a NAT by forwarding the
-   local SSH server (e.g., port 22) to a remote server.
-   SSH clients can connect to the device via the remote server
+ * Control a device behind a NAT by remote forwarding the
+   local SSH server (e.g., port 22).
+   SSH clients can connect to the device via a remote server
    with end-to-end encryption.
- * Remotely access a web application behind a NAT by forwarding the
-   local web server (e.g., port 80) to a remote server.
-   The remote server can host a reverse proxy to the web application
+ * Access a web application behind a NAT by remote forwarding the
+   local web server (e.g., port 80).
+   A remote server can host a reverse proxy to the web application
    and handle SSL/TLS termination.
+ * Stay connected to office network services behind an
+   SSH [bastion host](https://en.wikipedia.org/wiki/Bastion_host)
+   by local forwarding them. No need to use a VPN.
 
 **Are you using sidedoor?** Add yourself to the
 [Users wiki page](https://github.com/daradib/sidedoor/wiki/Users)!
@@ -85,7 +88,7 @@ Restart the sidedoor service to apply changes.
 
 ## Alternatives
 
-sidedoor is meant as a lightweight solution to tunneling localhost ports
+sidedoor is meant as a lightweight solution to tunneling ports
 with minimal dependencies. Some more featured alternatives include:
 
  * [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN)
