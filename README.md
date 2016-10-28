@@ -40,11 +40,14 @@ install the sidedoor-sudo package.
 
 ## Configuration
 
-The remote server and tunnel port are configured in `/etc/default/sidedoor`.
+The remote server and port forwards are configured in`/etc/default/sidedoor`.
 SSH configuration files are located in the `/etc/sidedoor` directory.
 `~sidedoor/.ssh` is a symlink to `/etc/sidedoor`.
 
- * Configure `REMOTE_SERVER` and `TUNNEL_PORT` in `/etc/default/sidedoor`.
+ * Configure `REMOTE_SERVER` and `OPTIONS` in `/etc/default/sidedoor`.
+   For some arguments to pass in `OPTIONS`, see the blog post
+   [SSH Tunnel - Local and Remote Port Forwarding Explained With Examples](https://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html)
+   and the [ssh man page](https://linux.die.net/man/1/ssh).
  * Create SSH configuration files under `/etc/sidedoor`.
    - `id_rsa`: SSH private key to access the remote server.
      Can be generated with `sudo ssh-keygen -t rsa -f /etc/sidedoor/id_rsa`
