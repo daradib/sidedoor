@@ -13,6 +13,10 @@ Example use cases:
    The remote server can host a reverse proxy to the web application
    and handle SSL/TLS termination.
 
+**Are you using sidedoor?** Add yourself to the
+[Users wiki page](https://github.com/daradib/sidedoor/wiki/Users)!
+Bugs reports, feature requests - please open an issue!
+
 sidedoor is packaged for Debian-based systems with systemd or upstart.
 It has been used on Debian 8 (jessie) and Ubuntu 14.04 LTS (trusty).
 
