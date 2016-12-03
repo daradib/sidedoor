@@ -1,6 +1,6 @@
 # sidedoor
 
-sidedoor maintains an SSH connection or tunnel.
+sidedoor maintains an SSH connection or tunnel. Roughly a poor man's VPN.
 
 Example use cases:
 
@@ -15,6 +15,8 @@ Example use cases:
  * Stay connected to office network services behind an
    SSH [bastion host](https://en.wikipedia.org/wiki/Bastion_host)
    by local forwarding them. No need to use a VPN.
+ * [Melt Evil Corp's tape backups](http://www.forbes.com/sites/abigailtracy/2015/07/15/hacking-the-hacks-mr-robot-episode-four-sam-esmail/)
+   by remotely controlling a Raspberry Pi (not recommended!).
 
 **Are you using sidedoor?** Add yourself to the
 [Users wiki page](https://github.com/daradib/sidedoor/wiki/Users)!
@@ -79,7 +81,7 @@ Restart the sidedoor service to apply changes.
  * Lock down the local SSH server by editing `/etc/ssh/sshd_config`.
    - Disable password authentication
      (`ChallengeResponseAuthentication no` and `PasswordAuthentication no`).
-   - Limit daemon to only listen on localhost.
+   - Limit daemon to only listen on localhost
      (`ListenAddress ::1` and `ListenAddress 127.0.0.1`).
    - To apply changes, restart or reload sshd, e.g.,
      `sudo service ssh reload`.
