@@ -1,5 +1,6 @@
-sidedoor (0.1) UNRELEASED; urgency=low
+sidedoor (0.1.0) unstable; urgency=medium
 
-  * Initial Release.
+  * Initial release. (Closes: #848260)
+    Thanks to Thorsten Alteholz for advising and sponsoring.
 
- -- Dara Adib <daradib@ocf.berkeley.edu>  Thu, 31 Dec 2015 16:35:12 -0500
+ -- Dara Adib <daradib@ocf.berkeley.edu>  Sat, 24 Dec 2016 23:01:33 -0500
