@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/daradib/sidedoor
 
 Package: sidedoor
 Architecture: all
-Depends: ${misc:Depends}, adduser, systemd | upstart
+Depends: ${misc:Depends}, adduser
 Recommends: openssh-server
 Suggests: sidedoor-sudo
 Description: SSH connection daemon
