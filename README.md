@@ -52,7 +52,6 @@ install the sidedoor-sudo package.
 
 The remote server and port forwards are configured in`/etc/default/sidedoor`.
 SSH configuration files are located in the `/etc/sidedoor` directory.
-`~sidedoor/.ssh` is a symlink to `/etc/sidedoor`.
 
  * Configure `REMOTE_SERVER` and `OPTIONS` in `/etc/default/sidedoor`.
    For some arguments to pass in `OPTIONS`, see the blog post
@@ -70,7 +69,9 @@ SSH configuration files are located in the `/etc/sidedoor` directory.
    - `known_hosts`: SSH host key of the remote server.
  * Optionally, grant remote access to the local sidedoor user by creating
    the file `/etc/sidedoor/authorized_keys` containing SSH public key(s).
-   The sidedoor-sudo package provides full root access.
+   `~sidedoor/.ssh/authorized_keys` is a symlink to
+   `/etc/sidedoor/authorized_keys`.
+   The sidedoor-sudo package provides full root access to this user.
 
 Restart the sidedoor service to apply changes.
 

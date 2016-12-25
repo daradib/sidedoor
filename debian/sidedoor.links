@@ -1,1 +1,1 @@
-etc/sidedoor var/lib/sidedoor/.ssh
+etc/sidedoor/authorized_keys var/lib/sidedoor/.ssh/authorized_keys

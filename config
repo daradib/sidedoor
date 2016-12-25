@@ -1,4 +1,10 @@
 Host *
+  # SSH private key to access the remote server.
+  IdentityFile /etc/sidedoor/id_rsa
+
+  # SSH host key of the remote server.
+  UserKnownHostsFile /etc/sidedoor/known_hosts
+
   # If tunneled traffic is encrypted (e.g., SSH),
   # it probably does not compress well.
   Compression no

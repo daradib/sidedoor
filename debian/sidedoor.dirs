@@ -1,2 +1,2 @@
 etc/sidedoor
-var/lib/sidedoor
+var/lib/sidedoor/.ssh
