@@ -25,7 +25,7 @@ Description: SSH connection daemon
 Package: sidedoor-sudo
 Architecture: all
 Depends: ${misc:Depends}, sidedoor
-Description: SSH tunnel daemon - sudoers entry
+Description: SSH connection daemon - sudoers entry
  sidedoor maintains an SSH connection or tunnel.
  .
  This package contains a sudoers entry to grant the sidedoor user
