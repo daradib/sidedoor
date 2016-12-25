@@ -2,7 +2,7 @@
 
 # Arguments to pass to sidedoor, which are in turn passed to ssh.
 # See man ssh for possible options.
-OPTIONS="-N -R 8022:localhost:22"
+OPTIONS="-R 8022:localhost:22"
 
 # Remote SSH server to connect to, i.e., [user@]hostname.
 REMOTE_SERVER=

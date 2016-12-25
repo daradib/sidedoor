@@ -9,11 +9,16 @@ if [ $# -eq 0 ]; then
   exit 65
 fi
 
+# Terminate child ssh process on interrupt/exit.
+trap 'kill "$ssh_pid" 2>/dev/null || true; exit' INT TERM EXIT
+
 while true; do
   # CLOCK_MONOTONIC would be resilient to administrator changes,
   # but timestamp is good enough.
   timestamp="$(date +%s)"
-  ssh "$@" || true
+  ssh -N -F /etc/sidedoor/config "$@" &
+  ssh_pid="$!"
+  wait "$ssh_pid" || true
   if [ "$(date +%s)" -lt "$(( $timestamp + 30 ))" ]; then
     echo "SSH exited too quickly. Retrying in 30 seconds." >&2
     sleep 30

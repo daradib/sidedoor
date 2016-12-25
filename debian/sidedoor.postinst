@@ -8,7 +8,6 @@ if [ "$1" = configure ]; then
     --shell /bin/sh \
     sidedoor
   passwd --quiet --lock sidedoor
-  chown sidedoor:sidedoor /etc/sidedoor/config
 fi
 
 #DEBHELPER#
