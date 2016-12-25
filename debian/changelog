@@ -1,4 +1,4 @@
-sidedoor (0.1.1) unstable; urgency=medium
+sidedoor (0.1.1-1) unstable; urgency=medium
 
   * Initial release. (Closes: #848260)
     Thanks to Thorsten Alteholz for advising and sponsoring.
