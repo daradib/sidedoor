@@ -1,8 +1,0 @@
-# Configuration for sidedoor service
-
-# Arguments to pass to sidedoor, which are in turn passed to ssh.
-# See man ssh for possible options.
-OPTIONS="-R 8022:localhost:22"
-
-# Remote SSH server to connect to, i.e., [user@]hostname.
-REMOTE_SERVER=
