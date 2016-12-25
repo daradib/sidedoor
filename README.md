@@ -15,7 +15,7 @@ Example use cases:
  * Stay connected to office network services behind an
    SSH [bastion host](https://en.wikipedia.org/wiki/Bastion_host)
    by local forwarding them. No need to use a VPN.
- * [Melt Evil Corp's tape backups](http://www.forbes.com/sites/abigailtracy/2015/07/15/hacking-the-hacks-mr-robot-episode-four-sam-esmail/)
+ * [Melt Evil Corp's tape backups](https://www.forbes.com/sites/abigailtracy/2015/07/15/hacking-the-hacks-mr-robot-episode-four-sam-esmail/)
    by remotely controlling a Raspberry Pi (not recommended!).
 
 **Are you using sidedoor?** Add yourself to the
@@ -114,4 +114,4 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
