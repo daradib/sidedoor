@@ -1,0 +1,29 @@
+.TH SIDEDOOR 1 2016-12-25
+.SH NAME
+sidedoor \- SSH connection daemon
+.SH SYNOPSIS
+\fBsidedoor\fP [\fISSH options\fP] [\fIuser\fP\fB@\fP]\fIhostname\fP
+.SH DESCRIPTION
+.PP
+sidedoor maintains an SSH connection or tunnel.
+Roughly a poor man's VPN.
+.SH FILES
+.TP
+.I /etc/default/sidedoor
+Arguments to pass to \fBsidedoor\fP when run as a service.
+.TP
+.I /etc/sidedoor/authorized_keys
+SSH public key(s) with remote access to the local sidedoor user,
+if desired. The sidedoor-sudo package provides full root access
+to this user.
+.TP
+.I /etc/sidedoor/config
+SSH client configuration file.
+.TP
+.I /etc/sidedoor/id_rsa
+SSH private key to access the remote server.
+.TP
+.I /etc/sidedoor/known_hosts
+SSH host key of the remote server.
+.SH SEE ALSO
+.I /usr/share/doc/sidedoor/README.md.gz

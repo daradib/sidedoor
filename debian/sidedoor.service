@@ -1,5 +1,6 @@
 [Unit]
 Description=SSH connection daemon
+Documentation=man:sidedoor(1)
 After=local-fs.target network.target network-online.target
 Wants=network-online.target
 
