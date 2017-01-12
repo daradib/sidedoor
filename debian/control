@@ -10,7 +10,7 @@ Vcs-Browser: https://github.com/daradib/sidedoor
 
 Package: sidedoor
 Architecture: all
-Depends: ${misc:Depends}, adduser
+Depends: adduser, openssh-client, ${misc:Depends}
 Recommends: openssh-server
 Suggests: sidedoor-sudo
 Description: SSH connection daemon
@@ -24,7 +24,7 @@ Description: SSH connection daemon
 
 Package: sidedoor-sudo
 Architecture: all
-Depends: ${misc:Depends}, sidedoor
+Depends: sidedoor, ${misc:Depends}
 Description: SSH connection daemon - sudoers entry
  sidedoor maintains an SSH connection or tunnel.
  .
