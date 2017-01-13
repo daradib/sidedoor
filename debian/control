@@ -14,19 +14,32 @@ Depends: adduser, lsb-base (>= 3.0-6), openssh-client, ${misc:Depends}
 Recommends: openssh-server
 Suggests: sidedoor-sudo
 Description: SSH connection daemon
- sidedoor maintains an SSH connection or tunnel.
+ sidedoor maintains an SSH connection or tunnel
+ with a shell script daemon.
  .
- Example uses: control a device by forwarding the SSH port,
- access a web application by forwarding the web server port,
- and stay connected to office network services.
+ The primary use case is maintaining a remote port forward
+ to the local SSH server (or another port). Thus, the local
+ device can be accessed without using incoming connections
+ that may be blocked by a NAT or firewall or otherwise
+ impractical with mobile devices.
  .
- To use, set up SSH keys to access the remote server.
+ SSH clients can connect to the device via the reverse SSH proxy
+ that sidedoor tunnels to. This proxy server can be untrusted
+ and run by a third party or cloud service.
+ .
+ sidedoor enables SSH keepalives and retries SSH with
+ exponential backoff. In order to reconnect as soon as possible,
+ it resets the backoff when a network interface is brought up
+ (or changed).
+ .
+ Refer to the sidedoor man page to configure and set SSH keys.
 
 Package: sidedoor-sudo
 Architecture: all
 Depends: sidedoor, ${misc:Depends}
 Description: SSH connection daemon - sudoers entry
- sidedoor maintains an SSH connection or tunnel.
+ sidedoor maintains an SSH connection or tunnel
+ with a shell script daemon.
  .
  This package contains a sudoers entry to grant the sidedoor user
  full root access.
