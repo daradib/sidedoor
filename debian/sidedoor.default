@@ -2,7 +2,9 @@
 
 # Arguments to pass to sidedoor, which are in turn passed to ssh.
 # See man ssh for possible options.
-OPTIONS="-R 8022:localhost:22"
+# For example, uncomment the line below to create a remote port forward
+# to the local SSH server (running on port 22, exposed on port 8022).
+#OPTIONS='-R 8022:localhost:22'
 
 # Remote SSH server to connect to, i.e., [user@]hostname.
 REMOTE_SERVER=
