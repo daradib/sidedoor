@@ -1,0 +1,16 @@
+#!/bin/sh
+
+[ -x /usr/bin/sidedoor ] || exit 0
+[ "$IFACE" != lo ] || exit 0
+[ "$MODE" = start ] || exit 0
+[ "$ADDRFAM" = inet -o "$ADDRFAM" = inet6 ] || exit 0
+
+# Send SIGUSR1 to sidedoor daemon to reset retry backoff.
+if [ -d /run/systemd/system ]; then
+  systemctl kill -s USR1 sidedoor || true
+else
+  invoke-rc.d --quiet sidedoor status > /dev/null && \
+    [ -r /var/run/sidedoor.pid ] && \
+    kill -USR1 "$(cat /var/run/sidedoor.pid)" || \
+    true
+fi
