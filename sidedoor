@@ -2,25 +2,88 @@
 
 set -eu
 
-if [ $# -eq 0 ]; then
-  echo "Usage: $(basename $0) [SSH_ARGS...] [user@]hostname"
+if [ "$#" -eq 0 ]; then
+  echo "Usage: $(basename "$0") [SSH_ARGS...] [user@]hostname"
   echo
   echo "Maintain an SSH connection or tunnel."
   exit 65
 fi
 
-# Terminate child ssh process on interrupt/exit.
-trap 'kill "$ssh_pid" 2>/dev/null || true; exit' INT TERM EXIT
+# POSIX arithmetic expressions do not support exponentiation,
+# so define a function for integer exponentiation.
+pow() {
+    set "$1" "$2" 1
+    while [ "$2" -gt 0 ]; do
+      set "$1" $(($2-1)) $(($1*$3))
+    done
+    echo "$3"
+}
 
+# Wait for a child process to complete and resume waiting after trap.
+# Repeat wait builtin if it returns an exit status of 128 + SIGUSR1,
+# which corresponds to wait returning early to handle that signal.
+wait_continue_after_trap() {
+  while true; do
+    if wait "$1"; then
+      return
+    else
+      retval="$?"
+    fi
+    if [ "$retval" -eq "$((128 + $(kill -l | sed -n /USR1$/=) - 1))" ]; then
+      continue
+    else
+      return
+    fi
+  done
+}
+
+# SIGINT, SIGTERM: terminate child processes, then exit.
+cleanup() {
+  if [ -n "${ssh_pid-}" ]; then
+    kill "${ssh_pid-}" || true
+    ssh_pid=
+  fi
+  if [ -n "${sleep_pid-}" ]; then
+    kill "${sleep_pid-}" || true
+    sleep_pid=
+  fi
+  wait
+  exit
+}
+trap cleanup INT TERM EXIT
+
+# SIGUSR1: wakeup from sleep to retry ssh immediately.
+wakeup() {
+  if [ -n "${sleep_pid-}" ]; then
+    echo "Received SIGUSR1. Retrying ssh immediately." >&2
+    tries=0
+    kill "${sleep_pid-}" || true; sleep_pid=
+  else
+    echo "Received SIGUSR1, but ssh is running. Ignoring." >&2
+  fi
+}
+trap wakeup USR1
+
+tries=0
 while true; do
   # CLOCK_MONOTONIC would be resilient to administrator changes,
   # but timestamp is good enough.
   timestamp="$(date +%s)"
-  ssh -N -F /etc/sidedoor/config "$@" &
-  ssh_pid="$!"
-  wait "$ssh_pid" || true
-  if [ "$(date +%s)" -lt "$(( $timestamp + 30 ))" ]; then
-    echo "SSH exited too quickly. Retrying in 30 seconds." >&2
-    sleep 30
+  ssh -NT -F /etc/sidedoor/config "$@" & ssh_pid="$!"
+  if wait_continue_after_trap "$ssh_pid"; then
+    exit
+  fi
+  ssh_pid=
+  # If ssh exits quickly, retry with exponential backoff.
+  if [ "$(date +%s)" -lt "$((timestamp + 30))" ]; then
+    tries="$((tries + 1))"
+    timeout="$(pow 2 $tries)"
+    [ "$timeout" -gt 600 ] && timeout=600
+    echo "ssh exited too quickly. Retrying in $timeout seconds." >&2
+    sleep "$timeout" & sleep_pid="$!"
+    wait_continue_after_trap "$sleep_pid" || true
+    sleep_pid=
+  else
+    tries=0
   fi
 done
