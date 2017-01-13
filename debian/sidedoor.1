@@ -1,29 +1,62 @@
-.TH SIDEDOOR 1 2016-12-25
+.TH SIDEDOOR 1 2017-01-14
 .SH NAME
 sidedoor \- SSH connection daemon
 .SH SYNOPSIS
 \fBsidedoor\fP [\fISSH options\fP] [\fIuser\fP\fB@\fP]\fIhostname\fP
 .SH DESCRIPTION
 .PP
-sidedoor maintains an SSH connection or tunnel.
-Roughly a poor man's VPN.
+sidedoor maintains an SSH connection or tunnel
+with a shell script daemon.
+
+The primary use case is maintaining a remote port forward
+to the local SSH server (or another port). Thus, the local
+device can be accessed without using incoming connections
+that may be blocked by a NAT or firewall or otherwise
+impractical with mobile devices.
+
+SSH clients can connect to the device via the reverse SSH proxy
+that sidedoor tunnels to. This proxy server can be untrusted
+and run by a third party or cloud service.
+
+sidedoor enables SSH keepalives and retries SSH with
+exponential backoff. In order to reconnect as soon as possible,
+it resets the backoff when a network interface is brought up
+(or changed).
+.SH OPTIONS
+See \fBssh\fP(1).
+.SH SIGNALS
+\fBSIGUSR1\fP resets the retry backoff, immediately retrying \fBssh\fP(1)
+if it is not currently running.
 .SH FILES
 .TP
 .I /etc/default/sidedoor
-Arguments to pass to \fBsidedoor\fP when run as a service.
+Arguments to pass to \fBsidedoor\fP when run as a service. See \fBssh\fP(1).
 .TP
 .I /etc/sidedoor/config
 SSH client configuration file.
 .TP
 .I /etc/sidedoor/id_rsa
 SSH private key to access the remote server.
+
+\fBssh-keygen\fP(1) can generate this key
+(press y when prompted to overwrite the existing file):
+
+    $ sudo ssh-keygen -t rsa -N '' -f /etc/sidedoor/id_rsa
+
+The corresponding public key \fIid_rsa.pub\fP will need to be included in
+the remote user's \fI~/.ssh/authorized_keys\fP file.
 .TP
 .I /etc/sidedoor/known_hosts
 SSH host key of the remote server.
 .TP
 .I /etc/sidedoor/authorized_keys
 Optionally, SSH public key(s) with remote access to the local sidedoor user.
+
+This is a symlink to \fI~sidedoor/.ssh/authorized_keys\fP.
 The sidedoor-sudo package provides full root access to this user.
+.TP
+.I /etc/network/if-up.d/sidedoor
+Sends \fBSIGUSR1\fP to reset the retry backoff on network state changes.
 .SH SEE ALSO
 .BR ssh (1),
 .I /usr/share/doc/sidedoor/README.md.gz
