@@ -12,11 +12,6 @@ Roughly a poor man's VPN.
 .I /etc/default/sidedoor
 Arguments to pass to \fBsidedoor\fP when run as a service.
 .TP
-.I /etc/sidedoor/authorized_keys
-SSH public key(s) with remote access to the local sidedoor user,
-if desired. The sidedoor-sudo package provides full root access
-to this user.
-.TP
 .I /etc/sidedoor/config
 SSH client configuration file.
 .TP
@@ -25,5 +20,10 @@ SSH private key to access the remote server.
 .TP
 .I /etc/sidedoor/known_hosts
 SSH host key of the remote server.
+.TP
+.I /etc/sidedoor/authorized_keys
+Optionally, SSH public key(s) with remote access to the local sidedoor user.
+The sidedoor-sudo package provides full root access to this user.
 .SH SEE ALSO
+.BR ssh (1),
 .I /usr/share/doc/sidedoor/README.md.gz
