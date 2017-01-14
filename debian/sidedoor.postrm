@@ -5,8 +5,17 @@ set -e
 #DEBHELPER#
 
 if [ "$1" = purge ]; then
+  # Change ownership of id_rsa to avoid exposing its contents to
+  # a new group that reuses the old sidedoor gid.
+  if [ -e /etc/sidedoor/id_rsa ]; then
+    chown root:root /etc/sidedoor/id_rsa
+  fi
+
   deluser --quiet --system sidedoor || true
-  rm -rf /var/lib/sidedoor
+
+  # Delete empty config files that were created in postinst.
+  find /etc/sidedoor -empty -delete || true
+  find /var/lib/sidedoor -empty -delete || true
 
 elif [ "$1" = upgrade ] && dpkg --compare-versions "$2" lt 0.2~; then
   # sidedoor 0.1.1-1 had authorized_keys in /etc/sidedoor instead of
