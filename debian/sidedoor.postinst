@@ -2,12 +2,26 @@
 
 set -e
 
+create_empty() {
+  [ -e "$1" ] || touch "$1"
+}
+
 if [ "$1" = configure ]; then
+  # Create sidedoor user.
   adduser --quiet --system --no-create-home --group \
     --home /var/lib/sidedoor \
     --shell /bin/sh \
     sidedoor
   passwd --quiet --lock sidedoor
+
+  # Create remaining config files with correct permissions.
+  # These are not managed as conffiles because they are empty
+  # and instead populated by each user.
+  create_empty /etc/sidedoor/id_rsa
+  chown root:sidedoor /etc/sidedoor/id_rsa
+  chmod 640 /etc/sidedoor/id_rsa
+  create_empty /etc/sidedoor/known_hosts
+  create_empty /etc/sidedoor/authorized_keys
 fi
 
 #DEBHELPER#
