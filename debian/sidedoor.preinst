@@ -2,11 +2,25 @@
 
 set -e
 
-# Old (but unreleased) revisions of this package had a symlink
-# from ~sidedoor/.ssh to /etc/sidedoor, which needs to be
-# deleted to make a symlink
-# from ~sidedoor/.ssh/authorized_keys to /etc/sidedoor/authorized_keys
-# instead.
-[ -L /var/lib/sidedoor/.ssh ] && rm /var/lib/sidedoor/.ssh || true
-
 #DEBHELPER#
+
+# sidedoor 0.1.0 (unreleased) had a symlink /var/lib/sidedoor/.ssh,
+# which needs to be deleted to convert it to a directory.
+# dpkg-maintscript-helper symlink_to_dir would also work,
+# but is not supported on wheezy.
+if dpkg --compare-versions "$2" lt 0.1.1~; then
+  [ ! -L /var/lib/sidedoor/.ssh ] || rm /var/lib/sidedoor/.ssh
+fi
+
+# sidedoor 0.1.1-1 had authorized_keys in /etc/sidedoor,
+# which has been replaced by a symlink in the reverse direction.
+# Move the old symlink target in preinst so that it is not overwritten
+# by the symlink in the new package.
+if dpkg --compare-versions "$2" lt 0.2~; then
+  authorized_keys=/etc/sidedoor/authorized_keys
+  if [ -s "$authorized_keys" -a ! -L "$authorized_keys" ]; then
+    echo "Moving $authorized_keys to /var/lib/sidedoor/.ssh/authorized_keys."
+    mkdir -p /var/lib/sidedoor/.ssh
+    mv "$authorized_keys" /var/lib/sidedoor/.ssh/authorized_keys.old
+  fi
+fi

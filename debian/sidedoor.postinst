@@ -7,7 +7,6 @@ create_empty() {
 }
 
 if [ "$1" = configure ]; then
-  # Create sidedoor user.
   adduser --quiet --system --no-create-home --group \
     --home /var/lib/sidedoor \
     --shell /bin/sh \
@@ -21,7 +20,18 @@ if [ "$1" = configure ]; then
   chown root:sidedoor /etc/sidedoor/id_rsa
   chmod 640 /etc/sidedoor/id_rsa
   create_empty /etc/sidedoor/known_hosts
-  create_empty /etc/sidedoor/authorized_keys
+
+  # If authorized_keys is missing, try authorized_keys.old, otherwise
+  # create a new empty file. authorized_keys.old is created by preinst
+  # when upgrading from old versions of this package.
+  sshdir=/var/lib/sidedoor/.ssh
+  if dpkg --compare-versions "$2" lt 0.2~; then
+    if [ ! -s "$sshdir/authorized_keys" -a \
+           -s "$sshdir/authorized_keys.old" ]; then
+      mv "$sshdir/authorized_keys.old" "$sshdir/authorized_keys"
+    fi
+  fi
+  create_empty "$sshdir/authorized_keys"
 fi
 
 #DEBHELPER#

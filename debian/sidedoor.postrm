@@ -7,4 +7,17 @@ set -e
 if [ "$1" = purge ]; then
   deluser --quiet --system sidedoor || true
   rm -rf /var/lib/sidedoor
+
+elif [ "$1" = upgrade ] && dpkg --compare-versions "$2" lt 0.2~; then
+  # sidedoor 0.1.1-1 had authorized_keys in /etc/sidedoor instead of
+  # ~sidedoor/.ssh. Move it near the old location to prevent deletion
+  # when downgrading.
+  authorized_keys=/var/lib/sidedoor/.ssh/authorized_keys.dpkg-tmp
+  moved_authorized_keys=/etc/sidedoor/authorized_keys.old
+  if [ -s "$authorized_keys" -a ! -L "$authorized_keys" ]; then
+    echo "WARNING: moving authorized_keys to prevent deletion during downgrade!"
+    echo "Please remove the '.old' extension from $moved_authorized_keys."
+    mkdir -p "$(dirname $moved_authorized_keys)"
+    mv "$authorized_keys" "$moved_authorized_keys"
+  fi
 fi
