@@ -36,10 +36,10 @@ Description: SSH connection daemon
 
 Package: sidedoor-sudo
 Architecture: all
-Depends: sidedoor, ${misc:Depends}
+Depends: sidedoor (= ${source:Version}), ucf, ${misc:Depends}
 Description: SSH connection daemon - sudoers entry
  sidedoor maintains an SSH connection or tunnel
  with a shell script daemon.
  .
- This package contains a sudoers entry to grant the sidedoor user
- full root access.
+ This empty package creates a sudoers entry to
+ grant the sidedoor user full root access.

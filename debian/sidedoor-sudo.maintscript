@@ -1,0 +1,2 @@
+# sidedoor-sudo 0.1.1-1 shipped a bad filename.
+rm_conffile /etc/sudoers.d/sudoers 0.2~

@@ -4,7 +4,63 @@ set -e
 
 #DEBHELPER#
 
-if [ "$1" = remove ]; then
-  # Remove sudo entry immediately, not when package is purged.
-  rm -f /etc/sudoers.d/sidedoor
-fi
+SUDOERS=/etc/sudoers.d/sidedoor
+
+pathfind() {
+  OLDIFS="$IFS"
+  IFS=:
+  for p in $PATH; do
+    if [ -x "$p/$*" ]; then
+      IFS="$OLDIFS"
+      return 0
+    fi
+  done
+  IFS="$OLDIFS"
+  return 1
+}
+
+UCF() {
+  if pathfind ucf; then
+    ucf "$@"
+  fi
+}
+
+UCFR() {
+  if pathfind ucfr; then
+    ucfr "$@"
+  fi
+}
+
+disable() {
+  # Do not use /dev/null in place of tempfile as it will be world-writable.
+  tempfile="$(mktemp -p /tmp)"
+  UCF "$tempfile" "$SUDOERS"
+  chmod 0440 "$SUDOERS"  # for extra peace of mind
+  UCFR sidedoor-sudo "$SUDOERS"
+  rm -f "$tempfile"
+}
+
+purge() {
+  for ext in '~' '%' .bak .ucf-new .ucf-old .ucf-dist; do
+    rm -f "${SUDOERS}${ext}"
+  done
+  rm -f "$SUDOERS"
+  UCF --purge "$SUDOERS"
+  UCFR --purge sidedoor-sudo "$SUDOERS"
+}
+
+case "$1" in
+  remove)
+    # Disable sudo entry immediately, not only when package is purged.
+    disable
+    ;;
+  purge)
+    purge
+    ;;
+  upgrade)
+    # sidedoor-sudo 0.1.1-1 does not use ucf.
+    if dpkg --compare-versions "$2" lt 0.2~; then
+      purge
+    fi
+    ;;
+esac
