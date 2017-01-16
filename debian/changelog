@@ -1,3 +1,24 @@
+sidedoor (0.2.0-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Add exponential backoffs and SIGUSR1 handler to reset backoff.
+  * Add if-up hook to send SIGUSR1 for faster reconnects.
+  * Move authorized_keys to /var/lib/sidedoor/.ssh/authorized_keys.
+  * Replace init script to fix systemd redirection.
+    Works around #826214 and #826215.
+  * Manage sudoers and blank config files with maintainer scripts.
+    Also fixes the sudoers file name.
+  * Comment out default args to exit cleanly when unconfigured.
+  * Other debian/ maintenance.
+    - Add openssh-client to Depends.
+    - Add debian/watch.
+    - Update package description and man page.
+      Thanks to Martin Kraft for feedback.
+    - Update debian/gbp.conf.
+    - Remove debian/TODO.
+
+ -- Dara Adib <daradib@ocf.berkeley.edu>  Mon, 16 Jan 2017 17:36:45 -0500
+
 sidedoor (0.1.1-1) unstable; urgency=medium
 
   * Initial release. (Closes: #848260)
