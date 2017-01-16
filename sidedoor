@@ -6,7 +6,8 @@ if [ "$#" -eq 0 ]; then
   echo "Usage: $(basename "$0") [SSH_ARGS...] [user@]hostname"
   echo
   echo "Maintain an SSH connection or tunnel."
-  exit 65
+  echo "No arguments provided. Exiting."
+  exit 0
 fi
 
 # POSIX arithmetic expressions do not support exponentiation,
