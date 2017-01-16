@@ -1,19 +1,21 @@
 # Example ~/.ssh/config file to connect to an SSH server tunneled by sidedoor.
 #
+# Replace these placeholders below:
 #  - MY_HOSTNAME:   hostname argument to match on the command-line, e.g.,
 #                   if you want to access a server by running `ssh pi`,
 #                   the hostname would be pi
 #  - TUNNEL_PORT:   tunneled port on the "bastion" to connect to, e.g.,
 #                   if you passed `-R 8022:localhost:22` to sidedoor,
 #                   the tunnel port would be 8022
-#  - REMOTE_SERVER: SSH "bastion" to proxy through
+#  - REMOTE_SERVER: SSH reverse proxy that sidedoor maintains a tunnel to
 
 Host MY_HOSTNAME
-    User sidedoor
-
-    # Tunnel the SSH port through the "bastion" to your client,
+    # Access the SSH server through the SSH reverse proxy,
     # with end-to-end SSH encryption.
     ProxyCommand ssh -W localhost:TUNNEL_PORT REMOTE_SERVER
+
+    # If authorized_keys is populated, log in as the sidedoor user.
+    User sidedoor
 
     # Optionally, specify a different private key.
     #IdentityFile
