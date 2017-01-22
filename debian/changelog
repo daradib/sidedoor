@@ -1,3 +1,11 @@
+sidedoor (0.2.0-2) unstable; urgency=medium
+
+  * Fixes to sidedoor-sudo.
+    - Add sudo to Depends. (Closes: #852122)
+    - Allow package removal even if disabling with ucf fails.
+
+ -- Dara Adib <daradib@ocf.berkeley.edu>  Sun, 22 Jan 2017 01:41:58 -0500
+
 sidedoor (0.2.0-1) unstable; urgency=medium
 
   * New upstream release.
