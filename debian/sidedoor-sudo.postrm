@@ -33,11 +33,13 @@ UCFR() {
 
 disable() {
   # Do not use /dev/null in place of tempfile as it will be world-writable.
-  tempfile="$(mktemp -p /tmp)"
-  UCF "$tempfile" "$SUDOERS"
-  chmod 0440 "$SUDOERS"  # for extra peace of mind
-  UCFR sidedoor-sudo "$SUDOERS"
-  rm -f "$tempfile"
+  if [ -e "$SUDOERS" ]; then
+    tempfile="$(mktemp -p /tmp)"
+    UCF "$tempfile" "$SUDOERS"
+    chmod 0440 "$SUDOERS"  # for extra peace of mind
+    UCFR sidedoor-sudo "$SUDOERS"
+    rm -f "$tempfile"
+  fi
 }
 
 purge() {
@@ -52,7 +54,7 @@ purge() {
 case "$1" in
   remove)
     # Disable sudo entry immediately, not only when package is purged.
-    disable
+    disable || true
     ;;
   purge)
     purge
