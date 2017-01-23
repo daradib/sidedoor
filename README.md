@@ -3,6 +3,8 @@
 sidedoor maintains an SSH connection or tunnel
 with a shell script daemon.
 
+![sidedoor tunneling](https://quietapple.org/dl/sidedoor.svg)
+
 The primary use case is maintaining a remote port forward
 to the local SSH server (or another port). Thus, the local
 device can be accessed without using incoming connections
@@ -36,7 +38,8 @@ Pull requests are welcome.
 
 ## Installation
 
-sidedoor is packaged for Debian-based systems like Raspbian and Ubuntu,
+sidedoor is packaged for Debian and Debian-based systems like
+Raspbian, Ubuntu, and VyOS/[EdgeOS][edgeos],
 but should work in any POSIX environment with an (OpenSSH) SSH client.
 
 If sidedoor is in your distribution repositories (Debian 9+, Ubuntu 17.04+),
@@ -140,7 +143,7 @@ with minimal dependencies. Some more featured alternatives include:
 
 ## License
 
-Copyright 2015-2016 Dara Adib.
+Copyright 2015-2017 Dara Adib.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -156,4 +159,5 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 [mrrobot]: https://www.forbes.com/sites/abigailtracy/2015/07/15/hacking-the-hacks-mr-robot-episode-four-sam-esmail/
+[edgeos]: https://help.ubnt.com/hc/en-us/articles/205202560-EdgeMAX-Add-other-Debian-packages-to-EdgeOS
 [portforwarding]: https://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html
