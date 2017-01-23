@@ -3,6 +3,8 @@
 sidedoor maintains an SSH connection or tunnel
 with a shell script daemon.
 
+![sidedoor tunneling](https://quietapple.org/dl/sidedoor.svg)
+
 The primary use case is maintaining a remote port forward
 to the local SSH server (or another port). Thus, the local
 device can be accessed without using incoming connections

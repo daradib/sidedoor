@@ -1,0 +1,16 @@
+digraph {
+    graph [rankdir=LR];
+    node [shape=box];
+    user [label="sysadmin"];
+    proxy [label="proxy\nlocalhost:8022", color=green];
+    pi [label="pi\nlocalhost:22", shape=house, color=red];
+    user -> proxy;
+    proxy -> pi [dir=back, label=<
+<B>sidedoor</B><BR/>(ssh -R
+ 8022:<FONT COLOR="red">localhost</FONT>:22
+ <FONT COLOR="green">proxy</FONT>)>];
+    user -> pi [style=dotted, label=<
+ssh <FONT COLOR="red">pi</FONT><BR/>(ProxyCommand ssh -W
+ <FONT COLOR="green">localhost</FONT>:8022
+ <FONT COLOR="green">proxy</FONT>)>];
+}
