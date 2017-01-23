@@ -49,6 +49,10 @@ purge() {
   rm -f "$SUDOERS"
   UCF --purge "$SUDOERS"
   UCFR --purge sidedoor-sudo "$SUDOERS"
+
+  # If sudo is purged before sidedoor, sudoers.d will be left behind,
+  # so try removing it if empty.
+  rmdir --ignore-fail-on-non-empty /etc/sudoers.d
 }
 
 case "$1" in
