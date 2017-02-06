@@ -96,7 +96,58 @@ SSH configuration files are located in the `/etc/sidedoor` directory.
    `~/.ssh/config` file to easily access the tunneled SSH server
    with `ssh`, `scp`, `rsync`, etc.
 
-## Comparison with autossh
+## Alternatives
+
+sidedoor is intended as a lightweight solution to tunneling ports
+with minimal dependencies, but there are some alternatives with more
+features.
+
+### Tor hidden service
+
+Tor provides anonymity to servers run as [hidden services][hidden-service],
+but also handles NAT traversal.
+
+Advantages:
+
+ * Metadata, including the IP address of the local device
+   and its connection state (on/off), is less exposed to an intermediary
+   like the reverse SSH proxy.
+
+Disadvantages:
+
+ * Tor must be installed and running on both the local device and clients.
+ * Tor has higher latency so terminal feedback (input echo) is slow.
+
+On both the device and clients, install Tor.
+
+    sudo apt install tor
+
+On the device that is being exposed, edit [`/etc/tor/torrc`][torrc]
+to create a hidden service on port 22.
+
+    HiddenServiceDir /var/lib/tor/sshd/
+    HiddenServicePort 22 127.0.0.1:22
+    HiddenServiceAuthorizeClient stealth client
+
+Replace "client" with a comma-separated list of client names to
+generate multiple authorization secrets.
+
+Then reload Tor and get the onion hostname and authorization data.
+
+    sudo service tor reload
+    sudo cat /var/lib/tor/sshd/hostname
+
+On clients, edit [`/etc/tor/torrc`][torrc]
+to add the onion hostname and authorization data seen in the `hostname` file.
+
+    HidServAuth <hostname>.onion <secret>
+
+Then reload Tor and run `torsocks ssh <hostname>.onion` or set `ProxyCommand`
+in the `~/.ssh/config` file.
+
+    ProxyCommand torsocks nc <hostname>.onion 22
+
+### autossh
 
 [autossh](http://www.harding.motd.ca/autossh/), like sidedoor,
 starts `ssh` and restarts it as needed.
@@ -132,10 +183,7 @@ Some differences include:
    to attempt to reconnect as soon as possible, by receiving SIGUSR1
    from an `if-up.d` script. autossh does not have network state hooks.
 
-## Other alternatives
-
-sidedoor is intended as a lightweight solution to tunneling ports
-with minimal dependencies. Some more featured alternatives include:
+### Other alternatives
 
  * [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN)
  * [PageKite](https://github.com/pagekite/PyPagekite/)
@@ -161,3 +209,5 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 [mrrobot]: https://www.forbes.com/sites/abigailtracy/2015/07/15/hacking-the-hacks-mr-robot-episode-four-sam-esmail/
 [edgeos]: https://help.ubnt.com/hc/en-us/articles/205202560-EdgeMAX-Add-other-Debian-packages-to-EdgeOS
 [portforwarding]: https://blog.trackets.com/2014/05/17/ssh-tunnel-local-and-remote-port-forwarding-explained-with-examples.html
+[hidden-service]: https://www.torproject.org/docs/tor-hidden-service.html.en
+[torrc]: https://www.torproject.org/docs/tor-manual.html.en
