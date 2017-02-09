@@ -4,11 +4,11 @@ set -e
 
 #DEBHELPER#
 
-EXAMPLE=/usr/share/doc/sidedoor/examples/sudoers
+SOURCE=/usr/share/sidedoor-sudo/sudoers
 SUDOERS=/etc/sudoers.d/sidedoor
 
 if [ "$1" = configure ]; then
-  ucf "$EXAMPLE" "$SUDOERS"
+  ucf "$SOURCE" "$SUDOERS"
   chmod 0440 "$SUDOERS"  # for extra peace of mind
   ucfr sidedoor-sudo "$SUDOERS"
 fi

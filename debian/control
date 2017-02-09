@@ -41,5 +41,5 @@ Description: SSH connection daemon - sudoers entry
  sidedoor maintains an SSH connection or tunnel
  with a shell script daemon.
  .
- This empty package creates a sudoers entry to
+ This package creates a sudoers entry to
  grant the sidedoor user full root access.
