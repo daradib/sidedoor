@@ -1,3 +1,17 @@
+sidedoor (0.2.1-1) unstable; urgency=medium
+
+  * New upstream release.
+    - Updates README.
+  * Fixes to sidedoor-sudo.
+    - remove empty sudoers.d on purge
+    - remove sidedoor version in Depends
+  * Other debian/ maintenance.
+    - debian/control: bump Standards-Version
+    - debian/control: depend on debhelper before obsolete dh-systemd
+    - debian/sidedoor.upstart: deprecated so remove
+
+ -- Dara Adib <daradib@ocf.berkeley.edu>  Sun, 08 Oct 2017 15:52:42 -0400
+
 sidedoor (0.2.0-3) unstable; urgency=medium
 
   * Move sudoers example to sidedoor-sudo package.
