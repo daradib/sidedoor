@@ -28,6 +28,7 @@ Other use cases:
    and handle SSL/TLS termination.
  * Stay connected to office network services behind an
    SSH [bastion host](https://en.wikipedia.org/wiki/Bastion_host)
+   or [jump server](https://en.wikipedia.org/wiki/Jump_server)
    by local forwarding them.
  * [Melt Evil Corp's tape backups][mrrobot]
    by remotely controlling a Raspberry Pi (not recommended!).

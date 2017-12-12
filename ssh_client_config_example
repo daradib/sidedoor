@@ -11,8 +11,18 @@
 
 Host MY_HOSTNAME
     # Access the SSH server through the SSH reverse proxy,
-    # with end-to-end SSH encryption.
-    ProxyCommand ssh -W localhost:TUNNEL_PORT REMOTE_SERVER
+    # with end-to-end SSH encryption. ProxyJump requires OpenSSH 9.3+.
+    HostName localhost
+    Port TUNNEL_PORT
+    ProxyJump REMOTE_SERVER
+
+    # For OpenSSH <9.3, comment out HostName, Port, ProxyJump above
+    # and instead use ProxyCommand. Functionally similar.
+    #ProxyCommand ssh -W localhost:TUNNEL_PORT REMOTE_SERVER
+
+    # For OpenSSH <5.4, comment out HostName, Port, ProxyJump above
+    # and instead use ProxyCommand with netcat. Functionally similar.
+    ssh REMOTE_SERVER exec nc localhost TUNNEL_PORT
 
     # If authorized_keys is populated, log in as the sidedoor user.
     User sidedoor
