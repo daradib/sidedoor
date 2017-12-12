@@ -185,6 +185,8 @@ Some differences include:
 
 ### Other alternatives
 
+ * [frp](https://github.com/fatedier/frp)
+ * [ngrok](https://ngrok.com/)
  * [OpenVPN](https://en.wikipedia.org/wiki/OpenVPN)
  * [PageKite](https://github.com/pagekite/PyPagekite/)
  * [ssh_tunnel](http://sshtunnel.sourceforge.net/)
