@@ -1,3 +1,9 @@
+sidedoor (0.2.1-2) UNRELEASED; urgency=medium
+
+  * Add missing build dependency on dh addon.
+
+ -- Debian Janitor <janitor@jelmer.uk>  Tue, 05 May 2020 23:39:26 +0000
+
 sidedoor (0.2.1-1) unstable; urgency=medium
 
   * New upstream release.
