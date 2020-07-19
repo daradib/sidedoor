@@ -7,6 +7,7 @@ Standards-Version: 4.5.0
 Homepage: https://github.com/daradib/sidedoor
 Vcs-Git: https://github.com/daradib/sidedoor.git
 Vcs-Browser: https://github.com/daradib/sidedoor
+Rules-Requires-Root: no
 
 Package: sidedoor
 Architecture: all
