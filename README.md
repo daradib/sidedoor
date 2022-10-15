@@ -62,26 +62,39 @@ SSH configuration files are located in the `/etc/sidedoor` directory.
     For some arguments to pass in `OPTIONS`, see the blog post
     [Local and Remote Port Forwarding Explained With Examples][portforwarding]
     and the [`ssh` man page](https://linux.die.net/man/1/ssh).
- 2. Edit SSH configuration files under `/etc/sidedoor`.
-    - **`id_rsa`**: SSH private key to access the remote server.
-      Can use `ssh-keygen` to create this key
-      (press y when prompted to overwrite the existing file):
+ 2. Create the `id_rsa` / `id_rsa.pub` ssh key pair under `/etc/sidedoor`:
+    You can use `ssh-keygen` to create this key
+    (press y when prompted to overwrite the existing file):
 
           sudo ssh-keygen -t rsa -N '' -f /etc/sidedoor/id_rsa
 
-      The corresponding public key `id_rsa.pub` will need to be included in
-      the remote user's `~/.ssh/authorized_keys` file.
-    - **`known_hosts`**: SSH host key of the remote server.
- 3. Optionally, grant remote access to the local sidedoor user by adding
+ 3. Add the remote server's ssh host key to sidedoor's known hosts
+    (replace `REMOTE_SERVER` with your actual remote server's address):
+
+          ssh-keyscan REMOTE_SERVER | sudo tee /etc/sidedoor/known_hosts
+
+ 4. Optionally, grant remote access to the local sidedoor user by unlocking
+    the account with `usermod -U sidedoor` and adding
     SSH public key(s) to the file `/etc/sidedoor/authorized_keys`.
     `/etc/sidedoor/authorized_keys` is a symlink to
     `~sidedoor/.ssh/authorized_keys`.
     The `sidedoor-sudo` package, if installed, provides full root access
     to this user.
 
- 4. Restart the sidedoor service to apply changes.
+ 5. Restart the sidedoor service to apply changes.
 
         sudo service sidedoor restart
+
+## Remote Server Configuration
+
+1. Create a user that can only perform port forwardings and can only log in via
+   public key:
+
+          adduser --shell /usr/sbin/nologin --disabled-password --gecos x sidedoor-portfw
+
+2. Copy `/etc/sidedoor/id_rsa.pub` from your local pc to `/home/sidedoor-portfw/.ssh/authorized_keys`
+3. Make sure that `ClientAliveInterval 30` is set in `/etc/ssh/sshd_config`. This makes sure that a hung ssh session is terminated after
+   some time and the remote port is freed up when sidedoor reconnects. Any non-zero value works, but `30` is reasonable.
 
 ## Recommendations
 
