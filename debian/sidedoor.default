@@ -7,4 +7,5 @@
 #OPTIONS='-R 8022:localhost:22'
 
 # Remote SSH server to connect to, i.e., [user@]hostname.
+# Example: REMOTE_SERVER=sidedoor-portfw@example.com
 REMOTE_SERVER=
