@@ -11,7 +11,7 @@ Rules-Requires-Root: no
 
 Package: sidedoor
 Architecture: all
-Depends: adduser, lsb-base (>= 3.0-6), openssh-client, ${misc:Depends}
+Depends: adduser, lsb-base, openssh-client, ${misc:Depends}
 Recommends: openssh-server
 Suggests: sidedoor-sudo
 Description: SSH connection daemon
